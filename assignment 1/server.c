@@ -1,3 +1,12 @@
+/* 
+He Fu
+012543440
+Assignment 1
+CMPE 279
+
+Team member: He Fu / Rui Guo
+*/
+
 // Server side C/C++ program to demonstrate Socket programming 
 #include <unistd.h> 
 #include <stdio.h> 
