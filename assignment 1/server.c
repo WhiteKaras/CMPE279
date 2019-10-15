@@ -1,6 +1,8 @@
 /* 
 He Fu
 012543440
+Rui Guo
+012478973
 Assignment 1
 CMPE 279
 
