@@ -30,7 +30,7 @@ int main(int argc, char const *argv[])
     char buffer[1024] = {0}; 
     char *hello = "Hello from server"; 
 	pid_t fpid = 0;
-	FILE *fd = 0;
+	int fd = 0;
 	
 	// Original
 	if (argc == 1 || (strcmp(argv[1], "-c") != 0) ){
@@ -44,7 +44,7 @@ int main(int argc, char const *argv[])
 		// Set up port and filename if needed
 		for (int i = 1; i < argc - 1; i += 2){
 			if (strcmp(argv[i], "-p") == 0) {
-				char_port = argv[i+1];
+				strcpy(char_port, argv[i+1]);
 				port = atoi(argv[i+1]);
 			}
 			if (strcmp(argv[i], "-f") == 0){
@@ -93,9 +93,8 @@ int main(int argc, char const *argv[])
 		// Read msg file if needed
 		if (file_flag)
 		{
-			fd = fopen(FileName, "r");
+			fd = open(FileName, O_RDONLY|O_NONBLOCK);
 			sprintf (char_fd, "%d", fd);
-			printf("%d", fd);
         }
 	
 		// Fork for privilege separation
@@ -124,26 +123,20 @@ int main(int argc, char const *argv[])
 			int status = 0;
 			while ((wait(&status) > 0));
 			printf("Parent done\n");
+			
+			close(fd);
 		}
 		
 	}
 	//Child job
 	else{	
 		printf("Child start\n");
-		char text[1024];
+		char *text = (char *) calloc(1024, sizeof(char));
 		
 		// Read file if needed
 		if (argc == 5){
 			fd = atoi(argv[4]);
-
-			int i = 0;
-			char c;
-			c = fgetc(fd); 
-			while (c != EOF && i<1024) 
-			{ 
-				text[i++] = c; 
-				c = fgetc(fd); 
-			} 		
+			read(fd, text, 1024);
 		}
 		else{
 			strcpy(text, hello);
