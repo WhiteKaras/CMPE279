@@ -40,11 +40,11 @@ int main(int argc, char const *argv[])
 		char FileName[FILENAME_MAX];
 		char char_fd[100];
 		int file_flag = 0;
-			
+		
 		// Set up port and filename if needed
 		for (int i = 1; i < argc - 1; i += 2){
 			if (strcmp(argv[i], "-p") == 0) {
-				strcpy(char_port, argv[i+1]);
+				char_port = argv[i+1];
 				port = atoi(argv[i+1]);
 			}
 			if (strcmp(argv[i], "-f") == 0){
